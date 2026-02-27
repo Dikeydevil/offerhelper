@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16
+    container_name: offerhelper-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: offerhelper
+      POSTGRES_USER: offerhelper
+      POSTGRES_PASSWORD: offerhelper
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: offerhelper-api
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      # при желании вынесем DATABASE_URL сюда
+      - DATABASE_URL=postgresql://offerhelper:offerhelper@db:5432/offerhelper
+
+volumes:
+  pgdata:
