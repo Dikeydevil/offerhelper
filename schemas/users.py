@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, EmailStr
+from models.users import User
 
 
 class UserBase(BaseModel):
@@ -10,8 +11,10 @@ class UserCreate(UserBase):
     password: str  # пароль при регистрации
 
 
-class User(UserBase):
+class User(BaseModel):
     id: int
+    email: EmailStr
+    role: str
     created_at: datetime
 
     class Config:

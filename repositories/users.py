@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Sequence
 
 from .base import BaseRepository
 from models.users import User
@@ -33,3 +33,29 @@ class UsersRepository(BaseRepository):
         if not auth_service.verify_password(password, user.hashed_password):
             return None
         return user
+
+    def list_users(
+            self,
+            skip: int = 0,
+            limit: int = 50,
+    ) -> Sequence[User]:
+        return (
+            self.db.query(User)
+            .order_by(User.id)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+
+    def set_random_password(self, user: User) -> str:
+        import secrets
+        import string
+
+        alphabet = string.ascii_letters + string.digits
+        plain = "".join(secrets.choice(alphabet) for _ in range(12))
+
+        user.hashed_password = auth_service.hash_password(plain)
+        self.db.add(user)
+        self.db.commit()
+        self.db.refresh(user)
+        return plain

@@ -9,3 +9,8 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     user_id: int | None = None
+
+
+class ChangePasswordRequest(BaseModel):
+    old_password: str
+    new_password: str
