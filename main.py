@@ -18,6 +18,7 @@ app.add_middleware(
 @app.on_event("startup")
 def startup_event():
    # ensure_default_admin()
+    pass
 
 app.include_router(auth.router)
 app.include_router(gigachat.router)
