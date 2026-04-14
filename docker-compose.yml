@@ -22,9 +22,10 @@ services:
       - db
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
-      # при желании вынесем DATABASE_URL сюда
-      - DATABASE_URL=postgresql://offerhelper:offerhelper@db:5432/offerhelper
+      DATABASE_URL: postgresql://offerhelper:offerhelper@db:5432/offerhelper
 
 volumes:
   pgdata:
