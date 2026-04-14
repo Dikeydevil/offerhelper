@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-
 from api import auth, gigachat, me, admin
+from services.auth_init import ensure_default_admin  # <- импорт инициализатора
 
 app = FastAPI()
 
@@ -14,7 +14,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# создаём дефолтного админа при старте, если пользователей (или админов) ещё нет
+@app.on_event("startup")
+def startup_event():
+    ensure_default_admin()
 
 app.include_router(auth.router)
 app.include_router(gigachat.router)
