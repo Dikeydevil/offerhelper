@@ -17,7 +17,7 @@ app.add_middleware(
 # создаём дефолтного админа при старте, если пользователей (или админов) ещё нет
 @app.on_event("startup")
 def startup_event():
-    ensure_default_admin()
+   # ensure_default_admin()
 
 app.include_router(auth.router)
 app.include_router(gigachat.router)
