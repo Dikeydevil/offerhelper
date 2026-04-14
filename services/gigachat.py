@@ -45,6 +45,7 @@ def upload_file(
         data=data,
         verify=CA_BUNDLE,
     )
+    print("GIGACHAT FILE UPLOAD:", resp.status_code, resp.text)  # <---
     resp.raise_for_status()
     return resp.json()["id"]
 
